@@ -1,0 +1,48 @@
+﻿@model Vidly.ViewModels.CustomerFormViewModel
+@{
+    ViewBag.Title = "NewCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>NewCustomer</h2>
+@using (Html.BeginForm("Save", "Customers",FormMethod.Post))
+{
+
+    @Html.ValidationSummary(true, "Please fix following errors")
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customers.Name)
+        @Html.TextBoxFor(m => m.Customers.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Customers.Name)
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customers.MembershipTypeId)
+        @Html.DropDownListFor(m => m.Customers.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Customers.MembershipTypeId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customers.BirthDate)
+        @Html.TextBoxFor(m => m.Customers.BirthDate, "{0:dd MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Customers.BirthDate)
+
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Customers.IsSubscribedToNewsletter) Is Subscribed To Newsletter ?
+        </label>
+    </div>
+    @Html.HiddenFor(m => m.Customers.Id)
+    @Html.AntiForgeryToken()
+    <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+
+
+}
+
+@section scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval")
+}
