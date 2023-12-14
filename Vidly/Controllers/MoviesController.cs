@@ -67,6 +67,7 @@ namespace Vidly.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Save(Movie model)
         {
             if (!ModelState.IsValid)
@@ -79,7 +80,10 @@ namespace Vidly.Controllers
             }
 
             if (model.Id == 0)
+            {
+                model.NumberAvailable = model.NumberInStock;
                 _context.movies.Add(model);
+            }
             else
             {
                 var movieInDb = _context.movies.Single(m => m.Id == model.Id);
@@ -94,6 +98,7 @@ namespace Vidly.Controllers
 
             return RedirectToAction("Index", "Movies");
         }
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int Id)
         {
             var movie = _context.movies.SingleOrDefault(m => m.Id == Id);

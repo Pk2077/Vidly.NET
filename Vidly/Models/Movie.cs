@@ -16,6 +16,7 @@ namespace Vidly.Models
         [Required]
         [Range(1, 20)]
         public byte NumberInStock { get; set; }
+        public byte NumberAvailable { get; set; }
         [StringLength(255)]
         public Genre Genre { get; set; }
         public int GenreId { get; set; }
